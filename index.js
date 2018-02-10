@@ -1,21 +1,11 @@
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
+const app = require('./app')
+const mongoose = require('mongoose')
+const config = require('./config')
 
-app.use(bodyParser.urlencoded({ extended: false }))
-
-app.post('/login', (req, res) => {
-
-    const user = {
-        user: req.body.user,
-        password: req.body.password
-    }
-
-    res.status(200).send({
-        user
+mongoose.connect(config.dataBase).then(() => {
+    app.listen(config.port, (err) => {
+        console.log(`Començam dins el port ${config.port}`)
     })
-})
-
-app.listen(3000, (err) => {
-    console.log('Començam...')
+}, err => {
+    console.log(err)
 })
