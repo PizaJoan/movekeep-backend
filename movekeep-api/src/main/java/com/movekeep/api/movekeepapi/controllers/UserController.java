@@ -11,14 +11,14 @@ public class UserController {
     @Autowired
     private UserManager userManager;
 
-    @RequestMapping(name = "/addUser", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addUser", method = RequestMethod.PUT)
     public String addUser(@RequestBody User user) {
         this.userManager.createUser(user);
         return "User added";
     }
 
-    @RequestMapping(name = "/getInfo", method = RequestMethod.GET)
-    public User getInfo(@RequestParam("username") String userName) {
+    @RequestMapping(value = "/getInfo/{userName}", method = RequestMethod.GET)
+    public User getInfo(@PathVariable String userName) {
         return this.userManager.findByUserName(userName);
     }
 }
