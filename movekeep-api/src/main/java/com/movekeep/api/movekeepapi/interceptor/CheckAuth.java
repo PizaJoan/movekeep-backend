@@ -16,7 +16,6 @@ public class CheckAuth extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         logger.info("Antes de handle");
 
         return super.preHandle(request, response, handler);
