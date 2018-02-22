@@ -20,4 +20,8 @@ public class CategoryManager {
     public void save(Category category) {
         this.categoryRepo.save(category);
     }
+
+    public List<String> getJustTitle() {
+        return this.categoryRepo.findJustCategories();
+    }
 }

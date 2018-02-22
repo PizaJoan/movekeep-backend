@@ -3,6 +3,7 @@ package com.movekeep.api.movekeepapi.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,13 +15,13 @@ public class Routine {
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, columnDefinition = "varchar(40)")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "varchar(300)")
     private String description;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", nullable = false, columnDefinition = "enum('time', 'reps')")
     private String type;
 
     //@JsonIgnore
@@ -33,6 +34,15 @@ public class Routine {
 
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "routine_categories",
+            joinColumns = { @JoinColumn(name = "routine_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") }
+    )
+    private List<Category> categories;
 
     public Integer getId() {
         return id;
@@ -81,4 +91,16 @@ public class Routine {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+/*
+    public void addExercise(Exercise exercise) {
+        exercise.setRoutine(this);
+    }*/
 }

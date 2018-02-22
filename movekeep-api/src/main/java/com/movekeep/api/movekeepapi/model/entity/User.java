@@ -20,16 +20,10 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "create_date", nullable = false)
     private Date creationDate;
 
-    @Column(name = "points", insertable = false)
-    private Integer points;
-
-    @PrePersist
-    public void onCreate() {
-        this.points = 0;
-    }
 
     public Integer getId() {
         return id;
@@ -63,11 +57,4 @@ public class User {
         this.creationDate = creationDate;
     }
 
-    public Integer getPoints() {
-        return points;
-    }
-
-    public void setPoints(Integer points) {
-        this.points = points;
-    }
 }

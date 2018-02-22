@@ -19,8 +19,8 @@ public class CategoryController {
     private CategoryManager categoryManager;
 
     @RequestMapping(value = "/getCategories", method = RequestMethod.GET)
-    public List<Category> categories() {
-        return this.categoryManager.getAll();
+    public List<String> categories() {
+        return this.categoryManager.getJustTitle();
     }
 
     @RequestMapping(value = "/addCategory", method = RequestMethod.PUT)

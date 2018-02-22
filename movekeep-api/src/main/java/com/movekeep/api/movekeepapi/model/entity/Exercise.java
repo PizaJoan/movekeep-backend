@@ -19,8 +19,11 @@ public class Exercise {
     @Column(name = "description", nullable = false)
     private String description;
 
-    private Integer routine_id;
-
+    /*@ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "routine_id")
+    private Routine routine;
+*/
     public Integer getId() {
         return id;
     }
@@ -45,4 +48,11 @@ public class Exercise {
         this.description = description;
     }
 
+    /*public Routine getRoutine() {
+        return routine;
+    }
+
+    public void setRoutine(Routine routine) {
+        this.routine = routine;
+    }*/
 }
