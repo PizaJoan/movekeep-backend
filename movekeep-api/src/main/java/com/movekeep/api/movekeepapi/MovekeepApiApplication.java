@@ -25,12 +25,14 @@ public class MovekeepApiApplication {
     CommandLineRunner commandLineRunner(RoutineManager routineManager, UserManager userManager, ExerciseRepo exerciceRepo) {
 		return (args) -> {
 		    User user = userManager.findByUserName("Joan Piza Ferra");
-            Exercise e = new Exercise();
-            e.setAmount(20);
-            e.setDescription("Sentadillas");
+            Exercise excercise = new Exercise();
+            excercise.setAmount(20);
+            excercise.setDescription("Sentadillas");
+
+            excercise = exerciceRepo.save(excercise);
 
             ArrayList<Exercise> exercises = new ArrayList<>();
-            exercises.add(e);
+            exercises.add(excercise);
 
             Routine routine = new Routine();
             routine.setTitle("Titol amazing");
