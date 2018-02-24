@@ -2,11 +2,14 @@ package com.movekeep.api.movekeepapi.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Category {
 
     @Id
@@ -20,6 +23,14 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Routine> routines;
+
+    public Category(String title) {
+        this.title = title;
+    }
+
+    public Category() {
+
+    }
 
     public Integer getId() {
         return id;

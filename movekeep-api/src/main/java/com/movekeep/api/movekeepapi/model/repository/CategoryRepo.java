@@ -10,6 +10,11 @@ import java.util.List;
 @Repository
 public interface CategoryRepo extends CrudRepository<Category, Integer> {
 
-    @Query(value = "SELECT title from category", nativeQuery = true)
-    List<String> findJustCategories();
+    @Query(value = "SELECT new Category(c.title) from Category AS c")
+    List<Category> findJustCategories();
+
+    @Query(value = "SELECT new Category(c.title) FROM Category AS c " +
+            "JOIN c.routines AS r " +
+            "WHERE r.id = ?1")
+    List<Category> findAllByRoutineId(Integer routineId);
 }

@@ -1,16 +1,16 @@
 package com.movekeep.api.movekeepapi.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Routine {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
@@ -37,12 +37,36 @@ public class Routine {
 
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "routine_categories",
             joinColumns = { @JoinColumn(name = "routine_id") },
             inverseJoinColumns = { @JoinColumn(name = "category_id") }
     )
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
+
+    //private Long commentsCount;
+
+    public Routine(String title, String description, String type, User user) {
+        this.title = title;
+        this.description = description;
+        this.type = type  ;
+        this.user = user;
+    }
+
+    public Routine(Integer id, String title, String description, String type) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.type = type;
+    }
+
+    public Routine() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -98,6 +122,22 @@ public class Routine {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+/*
+    public Long getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Long commentsCount) {
+        this.commentsCount = commentsCount;
     }
 /*
     public void addExercise(Exercise exercise) {

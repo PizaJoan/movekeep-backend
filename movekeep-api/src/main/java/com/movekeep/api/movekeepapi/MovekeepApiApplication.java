@@ -2,6 +2,7 @@ package com.movekeep.api.movekeepapi;
 
 import com.movekeep.api.movekeepapi.model.entity.*;
 import com.movekeep.api.movekeepapi.model.repomanager.CategoryManager;
+import com.movekeep.api.movekeepapi.model.repomanager.CommentManager;
 import com.movekeep.api.movekeepapi.model.repomanager.RoutineManager;
 import com.movekeep.api.movekeepapi.model.repomanager.UserManager;
 import com.movekeep.api.movekeepapi.model.repository.ExerciseRepo;
@@ -22,7 +23,7 @@ public class MovekeepApiApplication {
 	}
 
 	@Bean
-    CommandLineRunner commandLineRunner(RoutineManager routineManager, UserManager userManager, CategoryManager categoryManager) {
+    CommandLineRunner commandLineRunner(RoutineManager routineManager, UserManager userManager, CategoryManager categoryManager, CommentManager commentManager) {
 		return (args) -> {
 		    //List<Routine> routines = routineManager.getRoutines();
 
@@ -32,6 +33,13 @@ public class MovekeepApiApplication {
 		    user.setUserName("jpizaf");
 
 		    userManager.createUser(user);
+
+            User user2 = new User();
+            user2.setCreationDate(new Date());
+            user2.setName("Joan Piza");
+            user2.setUserName("jpizaf1");
+
+            userManager.createUser(user2);
 
             Exercise excercise = new Exercise();
             excercise.setAmount(20);
@@ -65,9 +73,41 @@ public class MovekeepApiApplication {
             routine.setCategories(categories);
             //categories.forEach(category -> routine.getCategories().add(category));
 
+            Routine routine2 = new Routine();
+            routine2.setTitle("Titol amazing2");
+            routine2.setType(TypeRoutine.time);
+            routine2.setUser(user);
+            routine2.setCategories(categories);
+
+            Exercise e1 = new Exercise();
+            e1.setAmount(20);
+            e1.setDescription("jajajlol");
+            List<Exercise> e = new ArrayList<>();
+            e.add(e1);
+            routine2.setExercises(e);
             //exerciceRepo.save(e);
 
             routineManager.save(routine);
+            routineManager.save(routine2);
+
+            Comment comment = new Comment();
+            comment.setContent("Això és un comentari de prova");
+            comment.setDate(new Date());
+            comment.setRoutine(routine2);
+            comment.setUser(user2);
+
+            Comment comment2 = new Comment();
+            comment2.setContent("Ajajajajajajajaj");
+            comment2.setDate(new Date());
+            comment2.setUser(user2);
+            comment2.setRoutine(routine2);
+
+            commentManager.saveComment(comment);
+            commentManager.saveComment(comment2);
+
+
+            //routineManager.removeRoutine(routine2.getId());
+
             //exerciceRepo.save(e);
 		};
 	}

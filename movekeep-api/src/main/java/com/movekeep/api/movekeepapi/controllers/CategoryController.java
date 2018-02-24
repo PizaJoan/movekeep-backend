@@ -5,10 +5,7 @@ import com.movekeep.api.movekeepapi.model.repomanager.CategoryManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ public class CategoryController {
     private CategoryManager categoryManager;
 
     @RequestMapping(value = "/getCategories", method = RequestMethod.GET)
-    public List<String> categories() {
+    public List<Category> categories() {
         return this.categoryManager.getJustTitle();
     }
 
@@ -29,6 +26,12 @@ public class CategoryController {
         this.categoryManager.save(category);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getRoutineCategories/{routineId}", method = RequestMethod.GET)
+    public List<Category> getFromRoutineId(@PathVariable Integer routineId) {
+
+        return this.categoryManager.getRoutineCategories(routineId);
     }
 
 }

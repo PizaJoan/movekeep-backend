@@ -13,15 +13,15 @@ public class CategoryManager {
     @Autowired
     private CategoryRepo categoryRepo;
 
-    public List<Category> getAll() {
-        return (List<Category>) this.categoryRepo.findAll();
-    }
-
     public void save(Category category) {
         this.categoryRepo.save(category);
     }
 
-    public List<String> getJustTitle() {
+    public List<Category> getJustTitle() {
         return this.categoryRepo.findJustCategories();
+    }
+
+    public List<Category> getRoutineCategories(Integer id) {
+        return this.categoryRepo.findAllByRoutineId(id);
     }
 }
