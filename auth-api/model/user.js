@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const authenticator = require('../authenticate/authenticator')
 const encrypt = require('./../authenticate/passVerify')
 
 const UserSchema = new Schema({

@@ -82,8 +82,12 @@ public class MovekeepApiApplication {
             Exercise e1 = new Exercise();
             e1.setAmount(20);
             e1.setDescription("jajajlol");
+            Exercise e2 = new Exercise();
+            e2.setAmount(20);
+            e2.setDescription("jajajlol");
             List<Exercise> e = new ArrayList<>();
             e.add(e1);
+            e.add(e2);
             routine2.setExercises(e);
             //exerciceRepo.save(e);
 
@@ -104,6 +108,11 @@ public class MovekeepApiApplication {
 
             commentManager.saveComment(comment);
             commentManager.saveComment(comment2);
+
+
+            routine2.getExercises().remove(1);
+
+            routineManager.save(routine2);
 
 
             //routineManager.removeRoutine(routine2.getId());

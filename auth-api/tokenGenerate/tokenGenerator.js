@@ -3,9 +3,8 @@ const PROPERTIES = require('../configuration');
 
 function generateToken(user) {
 
-    let userData =
-        {
-            "name": user.name,
+    let userData = {
+            "name": user.username,
         }
 
     return jwt.sign(userData,PROPERTIES.SECRET_KEY, {expiresIn:PROPERTIES.expTime});

@@ -27,7 +27,8 @@ public class Routine {
     //@JsonIgnore
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
     )
     @JoinColumn(name = "routine_id", referencedColumnName = "id")
     private List<Exercise> exercises;
@@ -53,8 +54,10 @@ public class Routine {
     public Routine(String title, String description, String type, User user) {
         this.title = title;
         this.description = description;
-        this.type = type  ;
+        this.type = type;
         this.user = user;
+        this.user.setUserName(null);
+        this.user.setCreationDate(null);
     }
 
     public Routine(Integer id, String title, String description, String type) {

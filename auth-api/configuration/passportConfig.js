@@ -1,11 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const BasicStrategy = require('passport-http').BasicStrategy;
+//const BasicStrategy = require('passport-http').BasicStrategy;
 const User = require('../model/user');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+//const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const properties = require('./index');
 
-
+/*
 passport.serializeUser(function(user, done) {
     done(null, user.googleId);
 });
@@ -47,7 +47,7 @@ passport.use(new GoogleStrategy({
         });
     }
 ));
-
+*/
 passport.use(new LocalStrategy(
     function (username, password, done) {
         User.findOne({'username': username}, function (err, user) {
@@ -64,7 +64,7 @@ passport.use(new LocalStrategy(
         });
     }
 ));
-
+/*
 passport.use(new BasicStrategy(
     function (username, password, done) {
         User.findOne({'username': username}, function (err, user) {
@@ -78,5 +78,5 @@ passport.use(new BasicStrategy(
         });
     }
 ));
-
+*/
 module.exports = passport;

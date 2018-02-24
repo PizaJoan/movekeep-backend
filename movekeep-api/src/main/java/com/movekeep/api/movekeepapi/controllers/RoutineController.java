@@ -20,7 +20,7 @@ public class RoutineController {
     }
 
 
-    @RequestMapping(value = "getRoutinesByCategory/{title}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getRoutinesByCategory/{title}", method = RequestMethod.GET)
     public List<Routine> getRoutinesFromCategory(@PathVariable String title) {
 
         return this.routineManager.getRoutineCategoryTitle(title);

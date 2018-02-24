@@ -7,10 +7,10 @@ let tokenGenerator = require ('./tokenGenerate/tokenGenerator');
 let passport = require('./configuration/passportConfig');
 let User = require('./model/user');
 
-
+/*
 router.post('/token-basic', passport.authenticate('basic', {session: false}), function (req, res) {
     res.json(tokenGenerator.access(req.user));
-});
+});*/
 
 router.post('/token-local', passport.authenticate('local', {session: false}), function (req, res) {
     let token = tokenGenerator.access(req.user)
@@ -29,23 +29,20 @@ router.post('/token-local', passport.authenticate('local', {session: false}), fu
 });*/
 
 router.post('/verify-token', function (req, res) {
-
     let message = verifyToken.access(req.headers.authorization);
 
-    //if(!verifyToken.access(req.headers.authorization)){
     if(!message){
-
-        res.sendStatus(401)
+        res.status(401).json('Unauthorized')
     }else {
-        res.json(message);
+        res.json('OK');
     }
 });
 
 router.post('/refresh-token', function (req, res) {
     if (!verifyToken.access(req.headers.authorization)){
-        let user = verifyToken.refresh(req.body.refreshtoken);
+        let user = verifyToken.refresh(req.body.refresh);
         user = JSON.parse(Buffer.from(user.access_token.split(".")[1], 'base64').toString("ascii"))
-       User.findOne({username:user.username},function (err, user) {
+        User.findOne({username:user.username},function (err, user) {
            if(user){
                console.log(user)
                let token = tokenGenerator.access(user)

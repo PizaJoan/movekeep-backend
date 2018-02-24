@@ -2,12 +2,13 @@ let jwt = require('jsonwebtoken');
 let config = require('../configuration');
 
 
-function verifytoken(token, decrypt) {
+function verifytoken(token) {
+    if (!token.includes('Bearer')) return
     token = token.replace('Bearer ','');
     try {
-        let decode = jwt.verify(token,config.SECRET_KEY);
-        console.log(decode);
-        return decode
+        let decoded = jwt.verify(token,config.SECRET_KEY);
+        //console.log(decode);
+        return decoded
     }catch (err){
         return false
     }
@@ -16,9 +17,9 @@ function verifytoken(token, decrypt) {
 
 function verifyRefreshToken(token) {
     try {
-        let decode = jwt.verify(token,config.SECRET_KEY_REFRESH);
-        console.log(decode);
-        return decode
+        let decoded = jwt.verify(token,config.SECRET_KEY_REFRESH);
+        //console.log(decode);
+        return decoded
     }catch (err){
         return false
     }

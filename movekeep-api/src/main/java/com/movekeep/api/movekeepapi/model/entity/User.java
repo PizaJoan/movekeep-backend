@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     @Id
