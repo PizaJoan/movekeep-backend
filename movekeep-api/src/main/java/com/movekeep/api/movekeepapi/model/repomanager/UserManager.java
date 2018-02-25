@@ -13,7 +13,6 @@ public class UserManager {
     @Autowired
     private UserRepo userRepo;
 
-
     public List<User> getAll() {
         return (List<User>) this.userRepo.findAll();
     }
@@ -25,5 +24,15 @@ public class UserManager {
 
     public User findByUserName(String  userName) {
         return this.userRepo.findByUserName(userName);
+    }
+
+    public void setUserImage(String pathToImage) {
+
+        String userName = pathToImage.split("/")[2];
+
+        User userToAddImage = this.userRepo.findByUserName(userName);
+        userToAddImage.setPathToImage(pathToImage);
+
+        this.userRepo.save(userToAddImage);
     }
 }

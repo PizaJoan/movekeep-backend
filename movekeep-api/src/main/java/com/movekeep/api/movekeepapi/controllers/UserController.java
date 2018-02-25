@@ -1,6 +1,6 @@
 package com.movekeep.api.movekeepapi.controllers;
 
-import com.movekeep.api.movekeepapi.image.Upload;
+import com.movekeep.api.movekeepapi.image.UploadImage;
 import com.movekeep.api.movekeepapi.model.entity.User;
 import com.movekeep.api.movekeepapi.model.repomanager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class UserController {
     private UserManager userManager;
 
     @Autowired
-    private Upload uploader;
+    private UploadImage uploader;
 
     @RequestMapping(value = "/addUser", method = RequestMethod.PUT)
     public String addUser(@RequestBody User user) {
@@ -30,8 +30,12 @@ public class UserController {
     @RequestMapping(value = "/imageUpload", method = RequestMethod.POST)
     public String uploadUserImage(@RequestParam("image")MultipartFile image, @RequestParam("username") String userName) {
 
-        uploader.uploadImage(image, userName);
+        String pathToImage = uploader.uploadImage(image, userName);
 
-        return "OK";
+        if (null == pathToImage) return "error";
+
+        this.userManager.setUserImage(pathToImage);
+
+        return pathToImage;
     }
 }

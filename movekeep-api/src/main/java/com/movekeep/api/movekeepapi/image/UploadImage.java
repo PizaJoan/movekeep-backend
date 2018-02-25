@@ -2,7 +2,7 @@ package com.movekeep.api.movekeepapi.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface Upload {
+public interface UploadImage {
 
-    boolean uploadImage(MultipartFile file, String userName);
+    String uploadImage(MultipartFile file, String userName);
 }

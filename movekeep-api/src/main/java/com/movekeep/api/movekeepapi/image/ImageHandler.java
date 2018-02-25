@@ -1,5 +1,6 @@
 package com.movekeep.api.movekeepapi.image;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,13 +9,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 @Component
-public class ImageHandler implements Upload, Download {
+public class ImageHandler implements UploadImage {
 
-    private final String pathToUpload = "/tmp/users/";
+    @Value("${movekeep.path.to.images}")
+    private String pathToUpload;
 
     @Override
-    public boolean uploadImage(MultipartFile image, String userName) {
-        if (image.isEmpty()) return false;
+    public String uploadImage(MultipartFile image, String userName) {
+        if (image.isEmpty()) return null;
 
         try {
 
@@ -32,18 +34,13 @@ public class ImageHandler implements Upload, Download {
             stream.write(imageBytes);
             stream.close();
 
-            return true;
+            return formatUrlToImage(userName, image.getOriginalFilename());
 
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
-            return false;
+            return null;
         }
-    }
-
-    @Override
-    public boolean serveImage() {
-        return false;
     }
 
     private void deleteFiles(File path) {
@@ -55,5 +52,9 @@ public class ImageHandler implements Upload, Download {
         }
 
         path.delete();
+    }
+
+    private String formatUrlToImage(String userName, String imageName) {
+        return "/images/" + userName + "/" + imageName;
     }
 }
