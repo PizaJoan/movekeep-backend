@@ -12,14 +12,14 @@ import java.util.List;
 @Repository
 public interface RoutineRepo extends CrudRepository<Routine, Integer> {
 
-    @Query(value = "SELECT new Routine(r.title, r.description, r.type, r.user) FROM Routine AS r " +
+    @Query(value = "SELECT new Routine(r.title, r.description, r.type, r.user, r.creationDate) FROM Routine AS r " +
             "JOIN r.categories AS c " +
             "JOIN r.user u " +
             "WHERE c.title = ?1")
     List<Routine> findAllByCategoryTitle(String title);
 
 
-    @Query(value = "SELECT new Routine(r.id, r.title, r.description, r.type) FROM Routine r " +
+    @Query(value = "SELECT new Routine(r.id, r.title, r.description, r.type, r.creationDate) FROM Routine r " +
             "JOIN r.user AS u " +
             "WHERE u.userName = ?1")
     List<Routine> findAllByUserName(String userName);

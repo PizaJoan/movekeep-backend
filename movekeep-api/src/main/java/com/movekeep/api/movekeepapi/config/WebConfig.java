@@ -17,7 +17,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(authInterceptor).excludePathPatterns("/getCategories", "/getRoutinesByCategory/*");
+        //registry.addInterceptor(authInterceptor).excludePathPatterns("/getCategories", "/getRoutinesByCategory/*");
         super.addInterceptors(registry);
     }
 

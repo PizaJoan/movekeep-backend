@@ -18,12 +18,15 @@ public class User {
     @Column(name = "username", unique = true, nullable = false)
     private String userName;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "create_date", nullable = false)
     private Date creationDate;
+
+    @Column(name = "profile_image")
+    private String pathToImage;
 
 
     public Integer getId() {
@@ -58,4 +61,11 @@ public class User {
         this.creationDate = creationDate;
     }
 
+    public String getPathToImage() {
+        return pathToImage;
+    }
+
+    public void setPathToImage(String pathToImage) {
+        this.pathToImage = pathToImage;
+    }
 }

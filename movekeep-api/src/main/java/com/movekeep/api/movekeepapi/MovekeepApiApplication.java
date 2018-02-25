@@ -71,6 +71,7 @@ public class MovekeepApiApplication {
             routine.setExercises(exercises);
             routine.setUser(user);
             routine.setCategories(categories);
+            routine.setCreationDate(new Date());
             //categories.forEach(category -> routine.getCategories().add(category));
 
             Routine routine2 = new Routine();
@@ -78,6 +79,7 @@ public class MovekeepApiApplication {
             routine2.setType(TypeRoutine.time);
             routine2.setUser(user);
             routine2.setCategories(categories);
+            routine2.setCreationDate(new Date());
 
             Exercise e1 = new Exercise();
             e1.setAmount(20);

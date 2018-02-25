@@ -2,8 +2,10 @@ package com.movekeep.api.movekeepapi.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,7 +26,6 @@ public class Routine {
     @Column(name = "type", nullable = false, columnDefinition = "enum('time', 'reps')")
     private String type;
 
-    //@JsonIgnore
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
@@ -49,22 +50,26 @@ public class Routine {
     @OneToMany(mappedBy = "routine", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    //private Long commentsCount;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "creada", nullable = false)
+    private Date creationDate;
 
-    public Routine(String title, String description, String type, User user) {
+    public Routine(String title, String description, String type, User user, Date creationDate) {
         this.title = title;
         this.description = description;
         this.type = type;
         this.user = user;
+        this.creationDate = creationDate;
         this.user.setUserName(null);
         this.user.setCreationDate(null);
     }
 
-    public Routine(Integer id, String title, String description, String type) {
+    public Routine(Integer id, String title, String description, String type, Date creationDate) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.type = type;
+        this.creationDate = creationDate;
     }
 
     public Routine() {
@@ -133,6 +138,14 @@ public class Routine {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 /*
     public Long getCommentsCount() {
