@@ -28,4 +28,5 @@ public interface RoutineRepo extends CrudRepository<Routine, Integer> {
             "WHERE routine_id = ?1", nativeQuery = true)
     Long countByComments(Integer id);
 
+    Routine findRoutineByIdAndUser(Integer id, User user);
 }

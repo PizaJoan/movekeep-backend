@@ -14,6 +14,9 @@ public class RoutineManager {
     @Autowired
     private RoutineRepo routineRepo;
 
+    @Autowired
+    private UserManager userManager;
+
     public List<Routine> getRoutines() {
         return (List<Routine>) this.routineRepo.findAll();
     }
@@ -34,7 +37,19 @@ public class RoutineManager {
         return this.routineRepo.countByComments(routineId);
     }
 
-    public void removeRoutine(Integer routineId) {
-        this.routineRepo.delete(routineId);
+    public boolean removeRoutine(Integer routineId, String userName) {
+        try {
+            User routineOwner = this.userManager.findByUserName(userName);
+
+            Routine userRoutine = this.routineRepo.findRoutineByIdAndUser(routineId, routineOwner);
+
+            this.routineRepo.delete(userRoutine);
+
+            return true;
+
+        } catch (Exception e) {
+
+            return false;
+        }
     }
 }

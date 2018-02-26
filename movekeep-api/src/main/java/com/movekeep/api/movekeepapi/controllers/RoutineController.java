@@ -3,6 +3,8 @@ package com.movekeep.api.movekeepapi.controllers;
 import com.movekeep.api.movekeepapi.model.entity.Routine;
 import com.movekeep.api.movekeepapi.model.repomanager.RoutineManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +33,14 @@ public class RoutineController {
 
         return this.routineManager.getMyRoutines(userName);
 
+    }
+
+    @RequestMapping(value = "/deleteRoutine", method = RequestMethod.DELETE)
+    public ResponseEntity deleteRoutine(@RequestParam("routine") Integer routine, @RequestParam("username") String userName) {
+
+        if (!this.routineManager.removeRoutine(routine, userName)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/countComments/{routineId}", method = RequestMethod.GET)

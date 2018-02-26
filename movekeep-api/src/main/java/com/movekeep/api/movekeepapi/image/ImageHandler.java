@@ -30,8 +30,7 @@ public class ImageHandler implements UploadImage {
 
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(pathForUser + "/" + image.getOriginalFilename())));
 
-            byte[] imageBytes = image.getBytes();
-            stream.write(imageBytes);
+            stream.write(image.getBytes());
             stream.close();
 
             return formatUrlToImage(userName, image.getOriginalFilename());
