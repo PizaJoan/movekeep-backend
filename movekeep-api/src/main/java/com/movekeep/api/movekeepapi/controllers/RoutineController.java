@@ -61,4 +61,12 @@ public class RoutineController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/getRoutine", method = RequestMethod.GET)
+    public Routine getRoutine(@RequestParam("routine") Integer routine, @RequestParam("username") String userName) {
+
+        Routine concreteRoutine = this.routineManager.getConcreteRoutine(routine, userName);
+
+        return concreteRoutine;
+    }
 }

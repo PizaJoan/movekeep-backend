@@ -1,10 +1,9 @@
 package com.movekeep.api.movekeepapi.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +51,14 @@ public class Routine {
     @Temporal(TemporalType.DATE)
     @Column(name = "creation_date", nullable = false)
     private Date creationDate;
+
+    public Routine(String title, String description, String type, Collection<Exercise> exercises) {
+        this.title = title;
+        this.description = description;
+        this.type = type;
+        this.exercises = (List<Exercise>) exercises;
+    }
+
 
     public Routine(String title, String description, String type, User user, Date creationDate) {
         this.title = title;
