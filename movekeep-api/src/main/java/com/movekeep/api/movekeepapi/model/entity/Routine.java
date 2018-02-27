@@ -39,7 +39,6 @@ public class Routine {
 
 
     @ManyToMany
-    @JsonIgnore
     @JoinTable(
             name = "routine_categories",
             joinColumns = { @JoinColumn(name = "routine_id") },
@@ -51,7 +50,7 @@ public class Routine {
     private List<Comment> comments;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "creada", nullable = false)
+    @Column(name = "creation_date", nullable = false)
     private Date creationDate;
 
     public Routine(String title, String description, String type, User user, Date creationDate) {

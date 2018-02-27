@@ -24,4 +24,5 @@ public class CategoryManager {
     public List<Category> getRoutineCategories(Integer id) {
         return this.categoryRepo.findAllByRoutineId(id);
     }
+
 }
