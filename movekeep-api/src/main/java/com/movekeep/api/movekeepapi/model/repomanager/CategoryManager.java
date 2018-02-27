@@ -21,6 +21,10 @@ public class CategoryManager {
         return this.categoryRepo.findJustCategories();
     }
 
+    public List<Category> findAll() {
+        return (List<Category>) this.categoryRepo.findAll();
+    }
+
     public List<Category> getRoutineCategories(Integer id) {
         return this.categoryRepo.findAllByRoutineId(id);
     }

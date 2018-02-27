@@ -20,6 +20,11 @@ public class CategoryController {
         return this.categoryManager.getJustTitle();
     }
 
+    @RequestMapping(value = "/getCategoriesWithId", method = RequestMethod.GET)
+    public List<Category> getCategories() {
+        return this.categoryManager.findAll();
+    }
+
     @RequestMapping(value = "/addCategory", method = RequestMethod.PUT)
     public ResponseEntity addCategory(@RequestBody Category category) {
 

@@ -44,10 +44,8 @@ public class RoutineManager {
 
     public boolean removeRoutine(Integer routineId, String userName) {
         try {
-            User routineOwner = this.userManager.findByUserName(userName);
 
-
-            Routine userRoutine =this.routineRepo.findRoutineByIdAndUser(routineId, routineOwner);
+            Routine userRoutine = this.getConcreteRoutine(routineId, userName);
 
             this.routineRepo.delete(userRoutine);
 
@@ -60,7 +58,8 @@ public class RoutineManager {
     }
 
     public Routine getConcreteRoutine(Integer routineId, String userName) {
+        User routineOwner = this.userManager.findByUserName(userName);
 
-        return this.routineRepo.concreteRoutineBydIdAndUser(routineId, userName);
+        return this.routineRepo.findRoutineByIdAndUser(routineId, routineOwner);
     }
 }

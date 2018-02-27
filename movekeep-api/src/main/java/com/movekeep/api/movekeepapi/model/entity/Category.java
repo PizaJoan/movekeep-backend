@@ -1,6 +1,7 @@
 package com.movekeep.api.movekeepapi.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Category {
     private String title;
 
     @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
     private List<Routine> routines;
 
     public Category(String title) {
