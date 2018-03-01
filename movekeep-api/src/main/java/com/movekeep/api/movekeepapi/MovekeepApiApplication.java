@@ -77,7 +77,7 @@ public class MovekeepApiApplication {
             Routine routine2 = new Routine();
             routine2.setTitle("Titol amazing2");
             routine2.setType(TypeRoutine.time);
-            routine2.setUser(user);
+            routine2.setUser(user2);
             routine2.setCategories(categories);
             routine2.setCreationDate(new Date());
 

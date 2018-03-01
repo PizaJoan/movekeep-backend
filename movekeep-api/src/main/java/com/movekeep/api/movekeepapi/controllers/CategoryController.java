@@ -25,7 +25,7 @@ public class CategoryController {
         return this.categoryManager.findAll();
     }
 
-    @RequestMapping(value = "/addCategory", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addCategory", method = RequestMethod.POST)
     public ResponseEntity addCategory(@RequestBody Category category) {
 
         this.categoryManager.save(category);
