@@ -21,7 +21,6 @@ public class CheckAuth extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("Antes de handle");
 
         if (!authenticator.isAuthenticated(request)) {
 
@@ -32,19 +31,4 @@ public class CheckAuth extends HandlerInterceptorAdapter {
         return super.preHandle(request, response, handler);
     }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
-        logger.info("despres de handle");
-
-        super.postHandle(request, response, handler, modelAndView);
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
-        logger.info("despres de completion");
-
-        super.afterCompletion(request, response, handler, ex);
-    }
 }

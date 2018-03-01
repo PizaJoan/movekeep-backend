@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import javax.persistence.OneToMany;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
@@ -22,6 +21,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         registry.addInterceptor(authInterceptor).excludePathPatterns("/getCategories", "/getRoutinesByCategory/*");
         super.addInterceptors(registry);
+    }
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry corsRegistry) {
+
+        corsRegistry.addMapping("/*").allowedOrigins("*");
+        super.addCorsMappings(corsRegistry);
     }
 
     @Bean

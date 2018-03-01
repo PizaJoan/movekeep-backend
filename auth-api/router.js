@@ -12,6 +12,11 @@ router.post('/token-basic', passport.authenticate('basic', {session: false}), fu
     res.json(tokenGenerator.access(req.user));
 });*/
 
+router.use((req, res, next) => {
+    res.header('Access-Control-Expose-Headers', 'Authorization')
+    next()
+})
+
 router.post('/token-local', passport.authenticate('local', {session: false}), function (req, res) {
     let token = tokenGenerator.access(req.user)
     let refresh = tokenGenerator.refresh(token)
