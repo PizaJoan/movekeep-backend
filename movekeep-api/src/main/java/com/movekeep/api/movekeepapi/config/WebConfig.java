@@ -28,7 +28,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addCorsMappings(CorsRegistry corsRegistry) {
 
         corsRegistry.addMapping("/**")
-                .allowedOrigins("*");
+                .allowedOrigins("*")
+                .allowedMethods("POST", "PUT", "GET", "DELETE");
                 //.exposedHeaders("Access-Control-Allow-Origin");
         super.addCorsMappings(corsRegistry);
     }
