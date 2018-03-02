@@ -19,7 +19,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(authInterceptor).excludePathPatterns("/getCategories", "/getRoutinesByCategory/*");
+        //registry.addInterceptor(authInterceptor).excludePathPatterns("/getCategories", "/getRoutinesByCategory/*");
         super.addInterceptors(registry);
     }
 
@@ -27,7 +27,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
 
-        corsRegistry.addMapping("/*").allowedOrigins("*");
+        corsRegistry.addMapping("/**")
+                .allowedOrigins("*");
+                //.exposedHeaders("Access-Control-Allow-Origin");
         super.addCorsMappings(corsRegistry);
     }
 

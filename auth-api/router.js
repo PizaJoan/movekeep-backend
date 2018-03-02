@@ -17,6 +17,25 @@ router.use((req, res, next) => {
     next()
 })
 
+router.post('/create-user', (req, res) => {
+    User.findOne({username: req.body.username}, (err, user) => {
+        if (user) res.status(400).json({ message: 'Usuari ja existeix' })
+    })
+    let newUser = new User({
+        username: req.body.username,
+        password: req.body.password
+    })
+    newUser.save((err, user) => {
+        if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
+        else {
+            let token = tokenGenerator.access(user)
+            let refresh = tokenGenerator.refresh(token)
+            res.header("Authorization", "Bearer " + token)
+            res.json(refresh);
+        }
+    })
+})
+
 router.post('/token-local', passport.authenticate('local', {session: false}), function (req, res) {
     let token = tokenGenerator.access(req.user)
     let refresh = tokenGenerator.refresh(token)

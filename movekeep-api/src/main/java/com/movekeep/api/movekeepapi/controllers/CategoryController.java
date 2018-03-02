@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@RequestMapping("/category")
 public class CategoryController {
 
     @Autowired
     private CategoryManager categoryManager;
 
-    @RequestMapping(value = "/getCategories", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public List<Category> categories() {
         return this.categoryManager.getJustTitle();
     }
 
-    @RequestMapping(value = "/getCategoriesWithId", method = RequestMethod.GET)
+    @RequestMapping(value = "/all/id", method = RequestMethod.GET)
     public List<Category> getCategories() {
         return this.categoryManager.findAll();
     }
 
-    @RequestMapping(value = "/addCategory", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity addCategory(@RequestBody Category category) {
 
         this.categoryManager.save(category);
@@ -34,7 +34,7 @@ public class CategoryController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getRoutineCategories/{routineId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/categories/routine/{routineId}", method = RequestMethod.GET)
     public List<Category> getFromRoutineId(@PathVariable Integer routineId) {
 
         return this.categoryManager.getRoutineCategories(routineId);

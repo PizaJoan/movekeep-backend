@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -16,18 +17,18 @@ public class UserController {
     @Autowired
     private UploadImage uploader;
 
-    @RequestMapping(value = "/addUser", method = RequestMethod.PUT)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@RequestBody User user) {
         this.userManager.createUser(user);
         return "User added";
     }
 
-    @RequestMapping(value = "/getInfo/{userName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/info/{userName}", method = RequestMethod.GET)
     public User getInfo(@PathVariable String userName) {
         return this.userManager.findByUserName(userName);
     }
 
-    @RequestMapping(value = "/imageUpload", method = RequestMethod.POST)
+    @RequestMapping(value = "/image", method = RequestMethod.POST)
     public String uploadUserImage(@RequestParam("image")MultipartFile image, @RequestParam("username") String userName) {
 
         String pathToImage = uploader.uploadImage(image, userName);

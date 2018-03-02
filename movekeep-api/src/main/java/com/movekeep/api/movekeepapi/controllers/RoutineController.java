@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/routine")
 public class RoutineController {
 
     @Autowired
@@ -19,26 +20,26 @@ public class RoutineController {
     @Autowired
     private UserManager userManager;
 
-    @RequestMapping(value = "/getRoutines", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Routine> getRoutines() {
 
         return this.routineManager.getRoutines();
     }
 
-    @RequestMapping(value = "/getRoutinesByCategory/{title}", method = RequestMethod.GET)
+    @RequestMapping(value = "/all/category/{title}", method = RequestMethod.GET)
     public List<Routine> getRoutinesFromCategory(@PathVariable String title) {
 
         return this.routineManager.getRoutineCategoryTitle(title);
     }
 
-    @RequestMapping(value = "/getMyRoutines/{userName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{userName}", method = RequestMethod.GET)
     public List<Routine> getMyRoutines(@PathVariable String userName) {
 
         return this.routineManager.getMyRoutines(userName);
 
     }
 
-    @RequestMapping(value = "/deleteRoutine", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity deleteRoutine(@RequestParam("routine") Integer routine, @RequestParam("username") String userName) {
 
         if (!this.routineManager.removeRoutine(routine, userName)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -46,13 +47,13 @@ public class RoutineController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/countComments/{routineId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/comments/count/{routineId}", method = RequestMethod.GET)
     public Long getRoutineCommentCount(@PathVariable Integer routineId) {
 
         return this.routineManager.countComments(routineId);
     }
 
-    @RequestMapping(value = "/addRoutine", method = RequestMethod.PUT)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity addRoutine(@RequestBody Routine routineToAdd) {
 
         routineToAdd.setUser(this.userManager.findByUserName(routineToAdd.getUser().getUserName()));
@@ -62,7 +63,7 @@ public class RoutineController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getRoutine", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
     public Routine getRoutine(@RequestParam("routine") Integer routine, @RequestParam("username") String userName) {
 
         return this.routineManager.getConcreteRoutine(routine, userName);
