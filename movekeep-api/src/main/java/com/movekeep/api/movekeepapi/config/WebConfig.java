@@ -27,7 +27,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(authInterceptor).excludePathPatterns( "/routine/all/category/*");
+        registry.addInterceptor(authInterceptor).excludePathPatterns( "/routine/all/category/*", "/category/all");
     }
 
     @Bean
