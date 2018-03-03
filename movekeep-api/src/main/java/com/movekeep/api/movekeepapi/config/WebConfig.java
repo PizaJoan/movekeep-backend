@@ -17,21 +17,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private CheckAuth authInterceptor;
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        //registry.addInterceptor(authInterceptor).excludePathPatterns("/getCategories", "/getRoutinesByCategory/*");
-        super.addInterceptors(registry);
-    }
-
-
-    @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
 
         corsRegistry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("POST", "PUT", "GET", "DELETE");
-                //.exposedHeaders("Access-Control-Allow-Origin");
-        super.addCorsMappings(corsRegistry);
+                .allowedMethods("POST", "GET", "OPTIONS", "DELETE", "PUT");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+
+        registry.addInterceptor(authInterceptor).excludePathPatterns( "/routine/all/category/*");
     }
 
     @Bean

@@ -16,7 +16,7 @@ public class Routine {
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    @Column(name = "title", nullable = false, columnDefinition = "varchar(40)")
+    @Column(name = "title", nullable = false, columnDefinition = "varchar(35)")
     private String title;
 
     @Column(name = "description", columnDefinition = "varchar(300)")

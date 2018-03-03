@@ -23,8 +23,10 @@ public class UserController {
         return "User added";
     }
 
+    @CrossOrigin(allowedHeaders = "Authorization", allowCredentials = "true", origins = "*")
     @RequestMapping(value = "/info/{userName}", method = RequestMethod.GET)
     public User getInfo(@PathVariable String userName) {
+
         return this.userManager.findByUserName(userName);
     }
 

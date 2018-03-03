@@ -18,6 +18,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Category> categories() {
+
         return this.categoryManager.getJustTitle();
     }
 

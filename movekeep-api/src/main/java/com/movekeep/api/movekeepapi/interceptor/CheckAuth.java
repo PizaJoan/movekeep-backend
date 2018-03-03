@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class CheckAuth extends HandlerInterceptorAdapter {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private Authenticate authenticator;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        if ("OPTIONS".equals(request.getMethod())) return super.preHandle(request, response, handler);
         if (!authenticator.isAuthenticated(request)) {
 
             response.sendError(401, "Unauthorized");
