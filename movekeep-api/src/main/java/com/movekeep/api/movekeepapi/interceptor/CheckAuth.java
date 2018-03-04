@@ -21,6 +21,7 @@ public class CheckAuth extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         if ("OPTIONS".equals(request.getMethod())) return super.preHandle(request, response, handler);
+
         if (!authenticator.isAuthenticated(request)) {
 
             response.sendError(401, "Unauthorized");
