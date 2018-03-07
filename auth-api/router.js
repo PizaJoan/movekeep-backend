@@ -19,19 +19,21 @@ router.use((req, res, next) => {
 
 router.post('/create-user', (req, res) => {
     User.findOne({username: req.body.username}, (err, user) => {
-        if (user) res.status(400).json({ message: 'Usuari ja existeix' })
-    })
-    let newUser = new User({
-        username: req.body.username,
-        password: req.body.password
-    })
-    newUser.save((err, user) => {
-        if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
+        if (user) res.status(409).json({ message: 'Usuari ja existeix' })
         else {
-            let token = tokenGenerator.access(user)
-            let refresh = tokenGenerator.refresh(token)
-            res.header("Authorization", "Bearer " + token)
-            res.json(refresh);
+            let newUser = new User({
+                username: req.body.username,
+                password: req.body.password
+            })
+            newUser.save((err, user) => {
+                if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
+                else {
+                    let token = tokenGenerator.access(user)
+                    let refresh = tokenGenerator.refresh(token)
+                    res.header("Authorization", "Bearer " + token)
+                    res.json(refresh);
+                }
+            })
         }
     })
 })
@@ -66,9 +68,8 @@ router.post('/refresh-token', function (req, res) {
     if (!verifyToken.access(req.headers.authorization)){
         let user = verifyToken.refresh(req.body.refresh);
         user = JSON.parse(Buffer.from(user.access_token.split(".")[1], 'base64').toString("ascii"))
-        User.findOne({username:user.username},function (err, user) {
+        User.findOne({username:user.name},function (err, user) {
            if(user){
-               console.log(user)
                let token = tokenGenerator.access(user)
                let refresh = tokenGenerator.refresh(token)
                res.header("Authorization", "Bearer " + token)
