@@ -24,6 +24,8 @@ public class CheckAuth extends HandlerInterceptorAdapter {
 
         if (!authenticator.isAuthenticated(request)) {
 
+            response.setHeader("Access-Control-Allow-Origin", "*");
+
             response.sendError(401, "Unauthorized");
             return false;
         }
