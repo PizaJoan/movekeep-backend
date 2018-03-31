@@ -1,30 +1,39 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+// const mongoose = require('mongoose')
+// const Schema = mongoose.Schema
 const encrypt = require('./../authenticate/passVerify')
 
-const UserSchema = new Schema({
-    username: String,
-    password: String,
-})
+class User {
+    static findOne(user, connection, done) {
+        connection.query('SELECT * FROM user WHERE username = ?', user.username, (err, user) => {
+            if (err) return done (err)
+            else return done(null, user[0])
+        })
+    }
+}
 
-UserSchema.methods.validPassword = function (password, cb) {
-    encrypt.checkPassword(password, this.password, (err, valid) => {
-        return cb(err, valid)
-    })
-};
+// const UserSchema = new Schema({
+//     username: String,
+//     password: String,
+// })
 
-UserSchema.pre('save', function(next) {
-    let user = this
+// UserSchema.methods.validPassword = function (password, cb) {
+//     encrypt.checkPassword(password, this.password, (err, valid) => {
+//         return cb(err, valid)
+//     })
+// };
 
-    if (!user.isModified('password')) return next()
+// UserSchema.pre('save', function(next) {
+//     let user = this
 
-    encrypt.encrypt(user.password, (err, hash) => {
-        if (err) return next(err)
+//     if (!user.isModified('password')) return next()
 
-        user.password = hash
-        next()
-    })
-})
+//     encrypt.encrypt(user.password, (err, hash) => {
+//         if (err) return next(err)
+
+//         user.password = hash
+//         next()
+//     })
+// })
 
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = User

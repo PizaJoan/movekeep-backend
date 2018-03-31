@@ -1,16 +1,24 @@
-let express = require('express');
-let cors = require('cors');
-let router = express.Router();
+const express = require('express');
+const cors = require('cors');
+const router = express.Router();
 router.use(cors({credentials: true, origin: '*'}));
-let verifyToken = require('./tokenVerify/tokenVerificator');
-let tokenGenerator = require ('./tokenGenerate/tokenGenerator');
-let passport = require('./configuration/passportConfig');
-let User = require('./model/user');
+const verifyToken = require('./tokenVerify/tokenVerificator');
+const tokenGenerator = require ('./tokenGenerate/tokenGenerator');
+const passport = require('./configuration/passportConfig');
+const User = require('./model/user');
 
 /*
 router.post('/token-basic', passport.authenticate('basic', {session: false}), function (req, res) {
     res.json(tokenGenerator.access(req.user));
 });*/
+
+router.get('/', (req, res) => {
+    console.log(res, req)
+    req.getConnection((err, connection) => {
+        console.log(err, connection)
+    })
+    res.send('OK')
+})
 
 router.use((req, res, next) => {
     res.header('Access-Control-Expose-Headers', 'Authorization')
@@ -18,23 +26,26 @@ router.use((req, res, next) => {
 })
 
 router.post('/create-user', (req, res) => {
-    User.findOne({username: req.body.username}, (err, user) => {
-        if (user) res.status(409).json({ message: 'Usuari ja existeix' })
-        else {
-            let newUser = new User({
-                username: req.body.username,
-                password: req.body.password
-            })
-            newUser.save((err, user) => {
-                if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
-                else {
-                    let token = tokenGenerator.access(user)
-                    let refresh = tokenGenerator.refresh(token)
-                    res.header("Authorization", "Bearer " + token)
-                    res.json(refresh);
-                }
-            })
-        }
+    req.getConnection((err, connection) => {
+        User.findOne({username: req.body.username}, connection, (err, user) => {
+            console.log(err, user)
+            // if (user) res.status(409).json({ message: 'Usuari ja existeix' })
+            // else {
+            //     let newUser = new User({
+            //         username: req.body.username,
+            //         password: req.body.password
+            //     })
+            //     newUser.save((err, user) => {
+            //         if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
+            //         else {
+            //             let token = tokenGenerator.access(user)
+            //             let refresh = tokenGenerator.refresh(token)
+            //             res.header("Authorization", "Bearer " + token)
+            //             res.json(refresh);
+            //         }
+            //     })
+            // }
+        })
     })
 })
 
