@@ -2,11 +2,68 @@
 // const Schema = mongoose.Schema
 const encrypt = require('./../authenticate/passVerify')
 
+function checkPassword(password, cb) {
+    encrypt.checkPassword(password, this.password, (err, valid) => {
+        return cb(err, valid)
+    })
+}
+
 class User {
+    
+    constructor({ name, username, password }) {
+        this.name = name
+        this.username = username
+        this.password = password
+    }
+
+    save(connection, done) {
+        encrypt.encrypt(this.password, (err, hash) => {
+            if (err) return done(err)
+            this.password = hash
+            this._saveIntoUser(connection).then(result => {
+                this._saveIntoUserAccounts(connection).then(result => done(null, this)).catch(err => done(err))
+            }).catch(err => done(err))
+        })
+    }
+
+    _saveIntoUser(connection) {
+        return new Promise((resolve, reject) => {
+            connection.query('INSERT INTO user SET ?', { 
+                create_date: new Date(),
+                profile_image: null,
+                name: this.name,
+                username: this.username
+            }, (err, result) => {
+                if (err) reject(err)
+                else {
+                    this.id = result.insertId
+                    resolve(result)
+                }
+            })
+        })  
+    }
+
+    _saveIntoUserAccounts(connection) {
+        return new Promise((resolve, reject) => {
+            connection.query('INSERT INTO user_account SET ?', {
+                user_id: this.id,
+                username: this.username,
+                password: this.password
+            }, (err, result) => {
+                delete this.id
+                if (err) reject(err)
+                else resolve(result)
+            })
+        })
+    }
+
     static findOne(user, connection, done) {
-        connection.query('SELECT * FROM user WHERE username = ?', user.username, (err, user) => {
-            if (err) return done (err)
-            else return done(null, user[0])
+        connection.query('SELECT * FROM user_account WHERE username = ?', user.username, (err, user) => {
+            if (err || !user[0]) return done (err)
+            else {
+                user[0].validPassword = checkPassword
+                return done(null, user[0])
+            }
         })
     }
 }
@@ -25,14 +82,14 @@ class User {
 // UserSchema.pre('save', function(next) {
 //     let user = this
 
-//     if (!user.isModified('password')) return next()
+    // if (!user.isModified('password')) return next()
 
-//     encrypt.encrypt(user.password, (err, hash) => {
-//         if (err) return next(err)
+    // encrypt.encrypt(user.password, (err, hash) => {
+    //     if (err) return next(err)
 
-//         user.password = hash
-//         next()
-//     })
+    //     user.password = hash
+    //     next()
+    // })
 // })
 
 

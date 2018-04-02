@@ -8,7 +8,7 @@ const mysql = require('mysql')
 
 app.use(passport.initialize());
 
-app.use(connection(mysql, config.mysql.config, 'request'))
+app.use(connection(mysql, config.mysql.config, 'single'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use('/', routes)

@@ -12,14 +12,6 @@ router.post('/token-basic', passport.authenticate('basic', {session: false}), fu
     res.json(tokenGenerator.access(req.user));
 });*/
 
-router.get('/', (req, res) => {
-    console.log(res, req)
-    req.getConnection((err, connection) => {
-        console.log(err, connection)
-    })
-    res.send('OK')
-})
-
 router.use((req, res, next) => {
     res.header('Access-Control-Expose-Headers', 'Authorization')
     next()
@@ -27,24 +19,20 @@ router.use((req, res, next) => {
 
 router.post('/create-user', (req, res) => {
     req.getConnection((err, connection) => {
-        User.findOne({username: req.body.username}, connection, (err, user) => {
-            console.log(err, user)
-            // if (user) res.status(409).json({ message: 'Usuari ja existeix' })
-            // else {
-            //     let newUser = new User({
-            //         username: req.body.username,
-            //         password: req.body.password
-            //     })
-            //     newUser.save((err, user) => {
-            //         if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
-            //         else {
-            //             let token = tokenGenerator.access(user)
-            //             let refresh = tokenGenerator.refresh(token)
-            //             res.header("Authorization", "Bearer " + token)
-            //             res.json(refresh);
-            //         }
-            //     })
-            // }
+        User.findOne({ username: req.body.username }, connection, (err, user) => {
+            if (user) res.status(409).json({ message: 'Usuari ja existeix' })
+            else {
+                let newUser = new User(req.body)
+                newUser.save(connection, (err, user) => {
+                    if (err) res.status(500).json({ message: 'Alguna cosa no ha funcionat' })
+                    else {
+                        let token = tokenGenerator.access(user)
+                        let refresh = tokenGenerator.refresh(token)
+                        res.header("Authorization", "Bearer " + token)
+                        res.json(refresh)
+                    }
+                })
+            }
         })
     })
 })

@@ -17,13 +17,12 @@ public class UserController {
     @Autowired
     private UploadImage uploader;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@RequestBody User user) {
         this.userManager.createUser(user);
         return "User added";
-    }
+    }*/
 
-    @CrossOrigin(allowedHeaders = "Authorization", allowCredentials = "true", origins = "*")
     @RequestMapping(value = "/info/{userName}", method = RequestMethod.GET)
     public User getInfo(@PathVariable String userName) {
 

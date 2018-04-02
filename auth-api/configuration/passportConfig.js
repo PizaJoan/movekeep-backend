@@ -1,9 +1,9 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
 //const BasicStrategy = require('passport-http').BasicStrategy;
-const User = require('../model/user');
+const User = require('../model/user')
 //const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const properties = require('./index');
+const properties = require('./index')
 
 /*
 passport.serializeUser(function(user, done) {
@@ -49,21 +49,29 @@ passport.use(new GoogleStrategy({
 ));
 */
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.findOne({'username': username}, function (err, user) {
-            if (err) {
-                return done(err);
-            } else if (!user) {
-                return done(null, false);
-            } else {
-                user.validPassword(password, (err, isValid) => {
-                    if (err || !isValid) return done(err)
-                    return done(null, user);
-                })
-            }
-        });
+    {
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: true
+    },
+    function(req, username, password, done) {
+        req.getConnection((err, connection) => {
+            User.findOne({ username: username }, connection,(err, user) => {
+                    if (err) {
+                        return done(err)
+                    } else if (!user) {
+                        return done(null, false)
+                    } else {
+                        user.validPassword(password, (err, isValid) => {
+                            if (err || !isValid) return done(err)
+                            return done(null, user)
+                        })
+                    }
+                }
+            )
+        })
     }
-));
+))
 /*
 passport.use(new BasicStrategy(
     function (username, password, done) {
@@ -79,4 +87,4 @@ passport.use(new BasicStrategy(
     }
 ));
 */
-module.exports = passport;
+module.exports = passport
