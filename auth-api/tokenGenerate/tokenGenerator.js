@@ -1,4 +1,4 @@
-let jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const PROPERTIES = require('../configuration');
 
 function generateToken(user) {

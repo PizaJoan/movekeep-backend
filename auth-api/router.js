@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const router = express.Router();
-router.use(cors({credentials: true, origin: '*'}));
+router.use(cors({ credentials: true, origin: '*' }));
 const verifyToken = require('./tokenVerify/tokenVerificator');
 const tokenGenerator = require ('./tokenGenerate/tokenGenerator');
 const passport = require('./configuration/passportConfig');
@@ -64,23 +64,30 @@ router.post('/verify-token', function (req, res) {
 });
 
 router.post('/refresh-token', function (req, res) {
-    if (!verifyToken.access(req.headers.authorization)){
-        let user = verifyToken.refresh(req.body.refresh);
-        user = JSON.parse(Buffer.from(user.access_token.split(".")[1], 'base64').toString("ascii"))
-        User.findOne({username:user.name},function (err, user) {
-           if(user){
-               let token = tokenGenerator.access(user)
-               let refresh = tokenGenerator.refresh(token)
-               res.header("Authorization", "Bearer " + token)
-               res.json(refresh);
-           }else{
-               res.sendStatus(401)
-           }
-        })
-    }else{
-        res.header("Authorization", req.headers.authorization)
-        res.json(req.body.refreshtoken);
-    }
+    if (!req.headers.authorization || !req.body.refreshtoken) res.sendStatus(404)
+    else req.getConnection((err, connection) => {
+        if (!verifyToken.access(req.headers.authorization)){
+            let user = verifyToken.refresh(req.body.refresh);
+            if (user) {
+                user = JSON.parse(Buffer.from(user.access_token.split(".")[1], 'base64').toString("ascii"))
+                User.findOne({ username:user.name }, connection, (err, user) => {
+                    if(user){
+                        let token = tokenGenerator.access(user)
+                        let refresh = tokenGenerator.refresh(token)
+                        res.header("Authorization", "Bearer " + token)
+                        res.json(refresh);
+                    } else {
+                        res.sendStatus(401)
+                    }
+                })
+            } else {
+                res.sendStatus(401)
+            }
+        } else {
+            res.header("Authorization", req.headers.authorization)
+            res.json(req.body.refreshtoken);
+        }
+    })
 });
 
 module.exports = router;

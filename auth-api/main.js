@@ -9,6 +9,7 @@ const config = require('./configuration');
         username: 'jpizaf',
         password: 'hola'
     }) */
+    console.log('Listening port 3000')
    })
 //     user.save((err, user) => {
 // */

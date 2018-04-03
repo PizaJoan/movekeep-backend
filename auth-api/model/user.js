@@ -20,9 +20,12 @@ class User {
         encrypt.encrypt(this.password, (err, hash) => {
             if (err) return done(err)
             this.password = hash
-            this._saveIntoUser(connection).then(result => {
-                this._saveIntoUserAccounts(connection).then(result => done(null, this)).catch(err => done(err))
-            }).catch(err => done(err))
+            connection.beginTransaction(err => {
+                if (err) throw err
+                this._saveIntoUser(connection).then(result => {
+                    this._saveIntoUserAccounts(connection).then(result => done(null, this)).catch(err => done(err))
+                }).catch(err => done(err))
+            })
         })
     }
 
@@ -34,8 +37,11 @@ class User {
                 name: this.name,
                 username: this.username
             }, (err, result) => {
-                if (err) reject(err)
-                else {
+                if (err) {
+                    return connection.rollback(() => {
+                        reject(err)
+                    })
+                } else {
                     this.id = result.insertId
                     resolve(result)
                 }
@@ -51,8 +57,18 @@ class User {
                 password: this.password
             }, (err, result) => {
                 delete this.id
-                if (err) reject(err)
-                else resolve(result)
+                if (err) {
+                    return connection.rollback(() => {
+                        reject(err)
+                    })
+                } else {
+                    connection.commit(err => {
+                        if (err) return connection.rollback(() => {
+                            reject(err)
+                        })
+                    })
+                    resolve(result)
+                }
             })
         })
     }
