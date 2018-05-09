@@ -63,13 +63,13 @@ public class Routine {
     */
 
 
-    public Routine(String title, String description, String type, User user, Date creationDate) {
+    public Routine(Integer id, String title, String description, String type, User user, Date creationDate) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.type = type;
         this.user = user;
         this.creationDate = creationDate;
-        this.user.setUserName(null);
         this.user.setCreationDate(null);
     }
 

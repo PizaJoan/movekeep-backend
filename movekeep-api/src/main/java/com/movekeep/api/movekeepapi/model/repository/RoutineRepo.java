@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface RoutineRepo extends CrudRepository<Routine, Integer> {
 
-    @Query(value = "SELECT new Routine(r.title, r.description, r.type, r.user, r.creationDate) FROM Routine AS r " +
+    @Query(value = "SELECT new Routine(r.id, r.title, r.description, r.type, r.user, r.creationDate) FROM Routine AS r " +
             "JOIN r.categories AS c " +
             "JOIN r.user u " +
             "WHERE c.title = ?1")

@@ -58,7 +58,11 @@ public class RoutineManager {
     }
 
     public Routine getConcreteRoutine(Integer routineId, String userName) {
+
         User routineOwner = this.userManager.findByUserName(userName);
+
+        routineOwner.setCreationDate(null);
+        routineOwner.setUserName(null);
 
         return this.routineRepo.findRoutineByIdAndUser(routineId, routineOwner);
     }

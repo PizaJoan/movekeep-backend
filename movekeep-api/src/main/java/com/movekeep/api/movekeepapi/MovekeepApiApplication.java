@@ -24,7 +24,8 @@ public class MovekeepApiApplication {
 		SpringApplication.run(MovekeepApiApplication.class, args);
 	}
 
-	@Bean
+//	@Bean
+
     CommandLineRunner commandLineRunner(RoutineManager routineManager, UserManager userManager, CategoryManager categoryManager, CommentManager commentManager) {
 		return (args) -> {
 		    //List<Routine> routines = routineManager.getRoutines();
