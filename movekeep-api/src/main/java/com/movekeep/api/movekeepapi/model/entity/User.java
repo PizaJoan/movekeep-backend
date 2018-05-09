@@ -10,12 +10,7 @@ import java.util.Date;
 public class User {
 
     @Id
-    @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
-
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false, length = 25)
     private String userName;
 
     @Column(name = "name", nullable = false)
@@ -27,15 +22,6 @@ public class User {
 
     @Column(name = "profile_image")
     private String pathToImage;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;

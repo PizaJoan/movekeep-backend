@@ -1,7 +1,8 @@
 const app = require('./app');
 // const mongoose = require('mongoose');
 const config = require('./configuration');
-// const User = require('./model/user')
+//const User = require('./model/user')
+const pass = require('./authenticate/passVerify')
 
 // mongoose.connect(config.db).then(() => {
    app.listen(3000, () => {
@@ -9,7 +10,6 @@ const config = require('./configuration');
         username: 'jpizaf',
         password: 'hola'
     }) */
-    console.log('Listening port 3000')
    })
 //     user.save((err, user) => {
 // */

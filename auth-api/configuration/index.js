@@ -9,8 +9,8 @@ module.exports = {
     mysql: {
         config: {
             host: 'localhost',
-            user: 'root',
-            password: '',
+            user: 'jpizaf',
+            password: '123',
             database: 'practica_test2'
         }
     }

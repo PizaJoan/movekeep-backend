@@ -20,11 +20,15 @@ class User {
         encrypt.encrypt(this.password, (err, hash) => {
             if (err) return done(err)
             this.password = hash
-            connection.beginTransaction(err => {
-                if (err) throw err
-                this._saveIntoUser(connection).then(result => {
-                    this._saveIntoUserAccounts(connection).then(result => done(null, this)).catch(err => done(err))
-                }).catch(err => done(err))
+            connection.beginTransaction(async err => {  
+                try {
+                    if (err) throw err
+                    let userSaved = await this._saveIntoUser(connection)
+                    let userAccountSaved = await this._saveIntoUserAccounts(connection)
+                    done(null, this)
+                } catch (e) {
+                    done(err)
+                }
             })
         })
     }
@@ -52,11 +56,9 @@ class User {
     _saveIntoUserAccounts(connection) {
         return new Promise((resolve, reject) => {
             connection.query('INSERT INTO user_account SET ?', {
-                user_id: this.id,
                 username: this.username,
                 password: this.password
             }, (err, result) => {
-                delete this.id
                 if (err) {
                     return connection.rollback(() => {
                         reject(err)

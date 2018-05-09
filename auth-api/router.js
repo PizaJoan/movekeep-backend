@@ -40,7 +40,7 @@ router.post('/create-user', (req, res) => {
 router.post('/token-local', passport.authenticate('local', {session: false}), function (req, res) {
     let token = tokenGenerator.access(req.user)
     let refresh = tokenGenerator.refresh(token)
-    res.header("Authorization", "Bearer " + token)
+    res.header("authorization", "Bearer " + token)
     res.json(refresh);
 });
 
