@@ -11,17 +11,19 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
     private UserManager userManager;
 
-    @Autowired
     private UploadImage uploader;
 
-   /* @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addUser(@RequestBody User user) {
-        this.userManager.createUser(user);
-        return "User added";
-    }*/
+    @Autowired
+    public void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
+    }
+
+    @Autowired
+    public void setUploader(UploadImage uploader) {
+        this.uploader = uploader;
+    }
 
     @RequestMapping(value = "/info/{userName}", method = RequestMethod.GET)
     public User getInfo(@PathVariable String userName) {

@@ -10,8 +10,12 @@ import java.util.List;
 @Component
 public class UserManager {
 
-    @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     public List<User> getAll() {
         return (List<User>) this.userRepo.findAll();

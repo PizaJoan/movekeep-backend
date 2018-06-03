@@ -29,6 +29,7 @@ public interface RoutineRepo extends CrudRepository<Routine, Integer> {
     Long countByComments(Integer id);
 
     Routine findRoutineByIdAndUser(Integer id, User user);
+
 /*
     @Query(value = "SELECT new Routine(r.title, r.description, r.type, r.exercises) FROM Routine AS r " +
             "JOIN r.exercises AS e " +

@@ -10,8 +10,12 @@ import java.util.List;
 @Component
 public class CategoryManager {
 
-    @Autowired
     private CategoryRepo categoryRepo;
+
+    @Autowired
+    public void setCategoryRepo(CategoryRepo categoryRepo) {
+        this.categoryRepo = categoryRepo;
+    }
 
     public void save(Category category) {
         this.categoryRepo.save(category);
@@ -28,5 +32,4 @@ public class CategoryManager {
     public List<Category> getRoutineCategories(Integer id) {
         return this.categoryRepo.findAllByRoutineId(id);
     }
-
 }

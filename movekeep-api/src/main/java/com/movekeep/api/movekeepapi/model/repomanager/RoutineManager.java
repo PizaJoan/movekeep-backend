@@ -15,11 +15,19 @@ import java.util.List;
 @Component
 public class RoutineManager {
 
-    @Autowired
     private RoutineRepo routineRepo;
 
-    @Autowired
     private UserManager userManager;
+
+    @Autowired
+    public void setRoutineRepo(RoutineRepo routineRepo) {
+        this.routineRepo = routineRepo;
+    }
+
+    @Autowired
+    public void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
+    }
 
     public List<Routine> getRoutines() {
         return (List<Routine>) this.routineRepo.findAll();
@@ -45,7 +53,7 @@ public class RoutineManager {
     public boolean removeRoutine(Integer routineId, String userName) {
         try {
 
-            Routine userRoutine = this.getConcreteRoutine(routineId, userName);
+            Routine userRoutine = this.routineRepo.findRoutineByIdAndUser(routineId, this.userManager.findByUserName(userName));
 
             this.routineRepo.delete(userRoutine);
 

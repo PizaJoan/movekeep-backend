@@ -53,16 +53,6 @@ public class Routine {
     @Column(name = "creation_date", nullable = false)
     private Date creationDate;
 
-    /*
-    public Routine(String title, String description, String type, Collection<Exercise> exercises) {
-        this.title = title;
-        this.description = description;
-        this.type = type;
-        this.exercises = (List<Exercise>) exercises;
-    }
-    */
-
-
     public Routine(Integer id, String title, String description, String type, User user, Date creationDate) {
         this.id = id;
         this.title = title;

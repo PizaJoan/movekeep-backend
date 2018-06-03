@@ -6,6 +6,7 @@ import com.movekeep.api.movekeepapi.model.repomanager.CommentManager;
 import com.movekeep.api.movekeepapi.model.repomanager.RoutineManager;
 import com.movekeep.api.movekeepapi.model.repomanager.UserManager;
 import com.movekeep.api.movekeepapi.model.repository.ExerciseRepo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,12 +25,12 @@ public class MovekeepApiApplication {
 		SpringApplication.run(MovekeepApiApplication.class, args);
 	}
 
-//	@Bean
+	// @Bean
 
     CommandLineRunner commandLineRunner(RoutineManager routineManager, UserManager userManager, CategoryManager categoryManager, CommentManager commentManager) {
 		return (args) -> {
 		    //List<Routine> routines = routineManager.getRoutines();
-
+/*
 		    User user = new User();
 		    user.setCreationDate(new Date());
 		    user.setName("Joan Piza Ferra");
@@ -74,9 +75,9 @@ public class MovekeepApiApplication {
             routine.setExercises(exercises);
             routine.setUser(user);
             routine.setCategories(categories);
-            routine.setCreationDate(new Date());
+            routine.setCreationDate(new Date());*/
             //categories.forEach(category -> routine.getCategories().add(category));
-
+/*
             Routine routine2 = new Routine();
             routine2.setTitle("Titol amazing2");
             routine2.setType(TypeRoutine.time);
@@ -122,7 +123,7 @@ public class MovekeepApiApplication {
 
             //routineManager.removeRoutine(routine2.getId());
 
-            //exerciceRepo.save(e);
+            //exerciceRepo.save(e);*/
 		};
 	}
 }

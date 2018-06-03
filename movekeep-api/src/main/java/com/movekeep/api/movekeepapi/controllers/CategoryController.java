@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
 
-    @Autowired
     private CategoryManager categoryManager;
+
+    @Autowired
+    public void setCategoryManager(CategoryManager categoryManager) {
+        this.categoryManager = categoryManager;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Category> categories() {
@@ -40,5 +44,4 @@ public class CategoryController {
 
         return this.categoryManager.getRoutineCategories(routineId);
     }
-
 }

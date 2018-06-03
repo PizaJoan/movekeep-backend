@@ -1,4 +1,4 @@
-package com.movekeep.api.movekeepapi.interceptor.authorization;
+package com.movekeep.api.movekeepapi.authorization;
 
 import javax.servlet.http.HttpServletRequest;
 

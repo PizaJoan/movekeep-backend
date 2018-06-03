@@ -14,11 +14,19 @@ import java.util.List;
 @RequestMapping("/routine")
 public class RoutineController {
 
-    @Autowired
     private RoutineManager routineManager;
 
-    @Autowired
     private UserManager userManager;
+
+    @Autowired
+    public void setUserManager (UserManager userManager) {
+        this.userManager = userManager;
+    }
+
+    @Autowired
+    public void setRoutineManager(RoutineManager routineManager) {
+        this.routineManager = routineManager;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Routine> getRoutines() {

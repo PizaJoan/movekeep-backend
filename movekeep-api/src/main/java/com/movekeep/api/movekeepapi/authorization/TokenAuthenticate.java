@@ -1,6 +1,7 @@
-package com.movekeep.api.movekeepapi.interceptor.authorization;
+package com.movekeep.api.movekeepapi.authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -11,10 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class TokenAuthenticate implements Authenticate {
 
-    private final String verifyUri = "http://localhost:3000/verify-token";
+    @Value("${movekeep.authenticate}")
+    private String verifyUri;
+
+    private RestTemplate restTemplate;
 
     @Autowired
-    private RestTemplate restTemplate;
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public boolean isAuthenticated(HttpServletRequest request) {
