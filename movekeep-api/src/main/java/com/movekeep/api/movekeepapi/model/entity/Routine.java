@@ -37,7 +37,7 @@ public class Routine {
     private User user;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "routine_categories",
             joinColumns = { @JoinColumn(name = "routine_id") },

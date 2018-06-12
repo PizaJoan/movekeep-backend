@@ -1,7 +1,5 @@
 package com.movekeep.api.movekeepapi.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -30,6 +28,14 @@ public class Comment {
     @Temporal(TemporalType.DATE)
     @Column(name = "date", nullable = false)
     private Date date;
+
+    /*public Comment(User user, Routine routine, String content, Date date) {
+        routine.setCategories(null);
+        this.user = user;
+        this.routine = routine;
+        this.content = content;
+        this.date = date;
+    }*/
 
     public Integer getId() {
         return id;
@@ -63,6 +69,7 @@ public class Comment {
         this.content = content;
     }
 
+
     public Date getDate() {
         return date;
     }
@@ -70,4 +77,5 @@ public class Comment {
     public void setDate(Date date) {
         this.date = date;
     }
+
 }
