@@ -3,12 +3,10 @@ package com.movekeep.api.movekeepapi.model.repomanager;
 import com.movekeep.api.movekeepapi.model.entity.Routine;
 import com.movekeep.api.movekeepapi.model.entity.User;
 import com.movekeep.api.movekeepapi.model.repository.RoutineRepo;
+import com.movekeep.api.movekeepapi.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -18,6 +16,14 @@ public class RoutineManager {
     private RoutineRepo routineRepo;
 
     private UserManager userManager;
+
+    private Parser<Routine> routineParser;
+
+    @Autowired
+    @Qualifier("RoutineParser")
+    public void setRoutineParser(Parser<Routine> routineParser) {
+        this.routineParser = routineParser;
+    }
 
     @Autowired
     public void setRoutineRepo(RoutineRepo routineRepo) {
@@ -72,6 +78,6 @@ public class RoutineManager {
         routineOwner.setCreationDate(null);
         routineOwner.setUserName(null);
 
-        return this.routineRepo.findRoutineByIdAndUser(routineId, routineOwner);
+        return this.routineParser.parse(this.routineRepo.findRoutineByIdAndUser(routineId, routineOwner));
     }
 }

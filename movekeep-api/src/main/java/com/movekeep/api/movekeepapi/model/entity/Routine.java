@@ -1,6 +1,5 @@
 package com.movekeep.api.movekeepapi.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -46,7 +45,6 @@ public class Routine {
     private List<Category> categories;
 
     @OneToMany(mappedBy = "routine", cascade = CascadeType.REMOVE)
-    @JsonIgnore
     private List<Comment> comments;
 
     @Temporal(TemporalType.DATE)

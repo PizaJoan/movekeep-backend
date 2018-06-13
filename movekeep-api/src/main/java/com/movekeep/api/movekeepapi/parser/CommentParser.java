@@ -1,10 +1,13 @@
 package com.movekeep.api.movekeepapi.parser;
 
 import com.movekeep.api.movekeepapi.model.entity.Comment;
+import org.springframework.stereotype.Component;
 
-public class CommentParser {
+@Component("CommentParser")
+public class CommentParser implements Parser<Comment> {
 
-    public static Comment parseComment(Comment comment) {
+    @Override
+    public Comment parse(Comment comment) {
 
         comment.setRoutine(null);
         comment.getUser().setCreationDate(null);
