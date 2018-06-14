@@ -1,12 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const router = express.Router();
-router.use(cors({ credentials: true, origin: '*' }));
-const verifyToken = require('./tokenVerify/tokenVerificator');
-const tokenGenerator = require ('./tokenGenerate/tokenGenerator');
-const passport = require('./configuration/passportConfig');
-const User = require('./model/user');
-
+const express = require('express')
+const cors = require('cors')
+const router = express.Router()
+router.use(cors({ credentials: true, origin: '*' }))
+const verifyToken = require('./tokenVerify/tokenVerificator')
+const tokenGenerator = require ('./tokenGenerate/tokenGenerator')
+const passport = require('./configuration/passportConfig')
+const User = require('./model/user')
+const config = require('./configuration')
 /*
 router.post('/token-basic', passport.authenticate('basic', {session: false}), function (req, res) {
     res.json(tokenGenerator.access(req.user));
@@ -37,21 +37,20 @@ router.post('/create-user', (req, res) => {
     })
 })
 
-router.post('/token-local', passport.authenticate('local', {session: false}), function (req, res) {
+router.post('/token-local', passport.authenticate('local', { session: false }), function (req, res) {
     let token = tokenGenerator.access(req.user)
     let refresh = tokenGenerator.refresh(token)
     res.header("authorization", "Bearer " + token)
     res.json(refresh);
 });
 
-//router.get('/token-google', passport.authenticate('google', {scope: ['profile']}));
+router.get('/token-google', passport.authenticate('google', {scope: ['profile']}));
 
-/*router.get('/token-google/callback', passport.authenticate('google', {}), function (req, res) {
+router.get('/token-google/callback', passport.authenticate('google', { }), function (req, res) {
     let token = tokenGenerator.access(req.user)
     let refresh = tokenGenerator.refresh(token)
-    res.header("Authorization", "Bearer " + token)
-    res.json(refresh);
-});*/
+    res.redirect(`${config.oauth.google.clientRedirect}?access=${token}&refresh=${refresh}`)
+});
 
 router.post('/verify-token', function (req, res) {
     let message = verifyToken.access(req.headers.authorization);

@@ -2,52 +2,42 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 //const BasicStrategy = require('passport-http').BasicStrategy;
 const User = require('./../model/user')
-//const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const properties = require('./index')
 
-/*
 passport.serializeUser(function(user, done) {
-    done(null, user.googleId);
+    done(null, user);
 });
-
-passport.deserializeUser(function(googleId, done) {
-    User.findById(googleId, function(err, user) {
-        done(err, user);
-    });
-});
-
 
 passport.use(new GoogleStrategy({
-        clientID: properties.googleId,
-        clientSecret: properties.googleSecret,
-        callbackURL: "http://localhost:3000/token-google/callback"
+        clientID: properties.oauth.google.id,
+        clientSecret: properties.oauth.google.secret,
+        callbackURL: properties.oauth.google.callback,
+        passReqToCallback: true
     },
-    function (accessToken, refreshToken, profile, done) {
-        User.findOne({
-            'googleId': profile.id
-        }, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                user = new User({
-                    "googleId": profile.id,
-                    "name": profile.name.givenName,
-                    "username": profile.displayName,
-                    "surname": profile.name.familyName,
-                    "rols": [{"id": "user"}]
-                });
-                user.save(function (err, newUser) {
-                    if (err) console.log(err);
-                    return done(null, newUser);
-                });
-            } else {
-                return done(null, user);
-            }
-        });
+    function (req, accessToken, refreshToken, profile, done) {
+        let username = (profile.name.familyName + profile.name.givenName).toLowerCase()
+        req.getConnection((err, connection) => {
+            User.findOne({ username: username }, connection, (err, user) => {
+                if (err) {
+                    return done(err)
+                } else if (!user) {
+                    let name = profile.displayName
+                    let password = profile.id
+                    let profile_image = profile.photos[0].value
+                    let newUser = new User({ name, username, password, profile_image })
+                    return newUser.save(connection, (error, user) => {
+                        if (user) return done(null, user)
+                        else return done(error, false)
+                    })
+                } else {
+                    return done(null, user)
+                }
+            })
+        })
     }
 ));
-*/
+
 passport.use(new LocalStrategy(
     {
         usernameField: 'username',
@@ -56,7 +46,7 @@ passport.use(new LocalStrategy(
     },
     function(req, username, password, done) {
         req.getConnection((err, connection) => {
-            User.findOne({ username: username }, connection,(err, user) => {
+            User.findOne({ username: username }, connection, (err, user) => {
                     if (err) {
                         return done(err)
                     } else if (!user) {

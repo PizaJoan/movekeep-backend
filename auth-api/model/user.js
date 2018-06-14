@@ -10,10 +10,11 @@ function checkPassword(password, cb) {
 
 class User {
     
-    constructor({ name, username, password }) {
+    constructor({ name, username, password, profile_image = null }) {
         this.name = name
         this.username = username
         this.password = password
+        this.profile_image = profile_image
     }
 
     save(connection, done) {
@@ -37,7 +38,7 @@ class User {
         return new Promise((resolve, reject) => {
             connection.query('INSERT INTO user SET ?', { 
                 create_date: new Date(),
-                profile_image: null,
+                profile_image: this.profile_image,
                 name: this.name,
                 username: this.username
             }, (err, result) => {
