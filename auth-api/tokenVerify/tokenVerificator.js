@@ -7,7 +7,6 @@ function verifytoken(token) {
     token = token.replace('Bearer ','');
     try {
         let decoded = jwt.verify(token,config.SECRET_KEY);
-        //console.log(decode);
         return decoded
     }catch (err){
         return false
@@ -18,7 +17,6 @@ function verifytoken(token) {
 function verifyRefreshToken(token) {
     try {
         let decoded = jwt.verify(token,config.SECRET_KEY_REFRESH);
-        //console.log(decode);
         return decoded
     }catch (err){
         return false

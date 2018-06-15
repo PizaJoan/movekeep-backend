@@ -1,22 +1,9 @@
-const app = require('./app');
-// const mongoose = require('mongoose');
-const config = require('./configuration');
-//const User = require('./model/user')
-const pass = require('./authenticate/passVerify')
+const app = require('./app')
+const config = require('./configuration')
 
-// mongoose.connect(config.db).then(() => {
-   app.listen(3000, () => {
-  /* let user = new User({
-        username: 'jpizaf',
-        password: 'hola'
-    }) */
-   })
-//     user.save((err, user) => {
-// */
-//      console.log('Authentication module listening on port 3000!');
-//    //})
-//     });
-// }, err => {
-//     console.log(err)
-// });
 
+app.listen(3000, () => {
+    console.log('Starting!')
+    console.log('Client redirect URL: ', config.oauth.google.clientRedirect)
+    console.log('Callback URL: ', config.oauth.google.callback)
+})

@@ -31,7 +31,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(authInterceptor).excludePathPatterns( "/routine/all/category/*", "/category/all", "/", "/routine/get/*");
+        registry.addInterceptor(authInterceptor).excludePathPatterns( "/movekeep-comments", "/routine/all/category/*", "/category/all", "/", "/routine/get/*");
     }
 
     @Bean

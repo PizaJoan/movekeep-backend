@@ -54,7 +54,6 @@ router.get('/token-google/callback', passport.authenticate('google', { }), funct
 
 router.post('/verify-token', function (req, res) {
     let message = verifyToken.access(req.headers.authorization);
-
     if(!message){
         res.status(401).json('Unauthorized')
     }else {

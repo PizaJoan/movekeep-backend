@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const PROPERTIES = require('../configuration');
+const PROPERTIES = require('./../configuration');
 
 function generateToken(user) {
 
@@ -7,14 +7,14 @@ function generateToken(user) {
             "name": user.username,
         }
 
-    return jwt.sign(userData,PROPERTIES.SECRET_KEY, {expiresIn:PROPERTIES.expTime});
+    return jwt.sign(userData,PROPERTIES.SECRET_KEY, { expiresIn:PROPERTIES.expTime });
 }
 
 function generateRefreshToken(token) {
     let data = {
         "access_token": token
     };
-    return jwt.sign(data,PROPERTIES.SECRET_KEY_REFRESH, {expiresIn:PROPERTIES.refreshTokenExpTime});
+    return jwt.sign(data,PROPERTIES.SECRET_KEY_REFRESH, { expiresIn:PROPERTIES.refreshTokenExpTime });
 }
 
 module.exports = {
