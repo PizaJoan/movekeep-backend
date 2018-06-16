@@ -16,7 +16,7 @@ module.exports = {
             id: '102488523111-o2kkdvo5j4t7isdho5i5h0aipo0hmkdp.apps.googleusercontent.com',
             secret: 'PHGyWUbRV3yjDMPhIJwI1T8b',
             callback: process.env.GOOGLECALLBACK || 'http://localhost:3000/token-google/callback',
-            clientRedirect: process.env.CLIENTREDIRECT || 'http://localhost:8081/#/my-routines/'
+            clientRedirect: process.env.CLIENTREDIRECT || 'http://192.168.1.41:8081/#/my-routines/'
         }
     }
 };
